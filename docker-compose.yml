@@ -1,0 +1,49 @@
+version: "3"
+services:
+
+    gitea:
+        image: gitea/gitea:latest
+        restart: always
+        network_mode: "bridge"
+        volumes:
+            - dbdata:/data
+        ports:
+            - "3000:3000"
+            #- "222:22"
+
+    drone-server:
+        image: drone/drone
+        restart: always
+        network_mode: "bridge"
+        volumes:
+            - dbdata:/var/lib/drone/
+        ports:
+            - 8000:8000
+            - 9000:9000
+        environment:
+            - DRONE_HOST=http://localhost:8000
+            - DRONE_OPEN=true
+            - DRONE_SECRET=drone-workshop
+            - DRONE_ADMIN=appleboy
+
+            # Gitea Config
+            - DRONE_GITEA=true
+            - DRONE_GITEA_URL=http://localhost:3000
+            - DRONE_GITEA_GIT_USERNAME=droneuser
+            - DRONE_GITEA_GIT_PASSWORD=dronepassword
+
+    drone-agent:
+        image: drone/agent
+        restart: always
+        network_mode: "bridge"
+        depends_on:
+            - drone-server
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            - DRONE_SERVER=drone-server:9000
+            - DRONE_SECRET=drone-workshop
+            - DRONE_MAX_PROCS=3
+
+volumes:
+    dbdata:
