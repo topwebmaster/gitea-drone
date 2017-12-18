@@ -9,7 +9,7 @@ services:
         volumes:
             - dbdata:/data
         ports:
-            - "127.0.0.1:3000:3000"
+            - "3000:3000"
 
     drone:
         image: drone/drone
@@ -28,7 +28,7 @@ services:
             # Gitea Config
             - DRONE_GITEA=true
             - DRONE_GITEA_URL=http://gitea:3000
-            - DRONE_GITEA_SKIP_VERIFY=false
+            - DRONE_GITEA_SKIP_VERIFY=true
             - DRONE_NETWORK=${DEFAULT_NETWORK}
 
     drone-agent:
