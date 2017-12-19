@@ -19,4 +19,4 @@ start-compose:
 	DEFAULT_NETWORK=gitea-network docker-compose up -d
 
 stop-compose:
-	docker-compose down
+	DEFAULT_NETWORK=gitea-network docker-compose down

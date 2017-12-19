@@ -9,7 +9,7 @@ services:
         volumes:
             - dbdata:/data
         ports:
-            - "3000:3000"
+            - "3000"
 
     drone:
         image: drone/drone
@@ -19,8 +19,8 @@ services:
         volumes:
             - dbdata:/var/lib/drone/
         ports:
-            - 8000:8000
-            - 9000:9000
+            - "8000"
+            - "9000"
         environment:
             - DRONE_OPEN=true
             - DRONE_HOST=http://drone:8000

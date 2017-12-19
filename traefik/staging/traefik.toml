@@ -15,7 +15,9 @@ defaultEntryPoints = ["http", "https"]
   caServer = "https://acme-staging.api.letsencrypt.org/directory"
 
 [[acme.domains]]
-  main = "dev.softinnov.fr"
+  main = "git.softinnov.fr"
+[[acme.domains]]
+  main = "drone.softinnov.fr"
 
 [file]
 
