@@ -4,7 +4,7 @@ services:
     gitea:
         build: 
             dockerfile: Dockerfile
-            context: ./
+            context: ./build
         restart: always
         volumes:
             - dbdata:/data
@@ -29,7 +29,7 @@ services:
             - DRONE_GITEA=true
             - DRONE_GITEA_URL=http://gitea:3000
             - DRONE_GITEA_SKIP_VERIFY=true
-            - DRONE_NETWORK=${DEFAULT_NETWORK}
+            - DRONE_NETWORK=gitea-network
 
     drone-agent:
         image: drone/agent
@@ -52,7 +52,7 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - ./traefik/staging:/etc/traefik
+            - ./traefik/prod:/etc/traefik
 
 volumes:
     dbdata:
@@ -60,4 +60,4 @@ volumes:
 networks:
   default:
     external:
-      name: ${DEFAULT_NETWORK}
+      name: gitea-network

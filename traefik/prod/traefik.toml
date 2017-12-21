@@ -29,13 +29,13 @@ defaultEntryPoints = ["http", "https"]
        url = "http://drone:8000"
 
 [frontends]
-  [frontends.gitea]
-      backend = "gitea"
-      passHostHeader = true
-      [frontends.gitea.routes.example]
-      rule = "Path:/gitea"
   [frontends.drone]
       backend = "drone"
       passHostHeader = true
       [frontends.drone.routes.example]
-      rule = "Path:/drone"
+      rule = "Host:drone.softinnov.fr"
+  [frontends.gitea]
+      backend = "gitea"
+      passHostHeader = true
+      [frontends.gitea.routes.example]
+      rule = "Host:git.softinnov.fr"

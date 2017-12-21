@@ -16,7 +16,7 @@ delete-network:
 	docker network rm gitea-network || echo "Network does not exist"
 
 start-compose:
-	DEFAULT_NETWORK=gitea-network docker-compose up -d
+	docker-compose up -d
 
 stop-compose:
-	DEFAULT_NETWORK=gitea-network docker-compose down
+	docker-compose down
