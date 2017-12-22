@@ -4,6 +4,8 @@ services:
     gitea:
         image: gitea/gitea:latest
         restart: always
+        ports:
+            - "2222:22"
         volumes:
             - dbdata:/data
             - ./gitea-dev-app.ini:/data/gitea/conf/app.ini

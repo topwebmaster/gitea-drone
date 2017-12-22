@@ -19,6 +19,7 @@
     - { rule: 'limit', port: '{{ ssh_port | default("22") }}', proto: 'tcp', src: '82.229.179.62' } # free@work
     - { rule: 'allow', port: '80', proto: 'tcp', src: '' }
     - { rule: 'allow', port: '443', proto: 'tcp', src: '' }
+    - { rule: 'allow', port: '2222', proto: 'tcp', src: '' }
 
 - name: disable ufw logging
   ufw: logging=off
