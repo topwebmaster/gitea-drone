@@ -6,7 +6,7 @@ services:
         restart: always
         volumes:
             - dbdata:/data
-            - ./gitea-app.ini:/data/gitea/conf/app.ini
+            - ./gitea-dev-app.ini:/data/gitea/conf/app.ini
 
     drone:
         image: drone/drone
@@ -17,11 +17,11 @@ services:
             - dbdata:/var/lib/drone/
         environment:
             - DRONE_OPEN=true
-            - DRONE_HOST=https://drone.softinnov.fr
+            - DRONE_HOST=http://drone:8000
             - DRONE_SECRET=drone-workshop
             # Gitea Config
             - DRONE_GITEA=true
-            - DRONE_GITEA_URL=https://git.softinnov.fr
+            - DRONE_GITEA_URL=http://gitea:3000
             - DRONE_GITEA_SKIP_VERIFY=true
             - DRONE_NETWORK=gitea-network
 
@@ -46,7 +46,7 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - ./traefik/prod:/etc/traefik
+            - ./traefik/staging:/etc/traefik
 
 volumes:
     dbdata:

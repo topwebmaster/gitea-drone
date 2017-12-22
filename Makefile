@@ -16,7 +16,7 @@ delete-network:
 	docker network rm gitea-network || echo "Network does not exist"
 
 start-compose:
-	docker-compose up -d
+	docker-compose -f dev-compose.yml up -d
 
 stop-compose:
-	docker-compose down
+	docker-compose -f dev-compose.yml down

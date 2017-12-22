@@ -20,9 +20,8 @@
     synchronize: src={{item.src}} dest={{item.dest}} recursive='yes'
     with_items:
     - { src: 'docker-compose.yml', dest: '/gitea-drone/' }
-    - { src: 'Dockerfile', dest: '/gitea-drone/' }
-    - { src: 'app.ini', dest: '/gitea-drone/' }
-    - { src: 'traefik', dest: '/gitea-drone/' }
+    - { src: 'gitea-app.ini', dest: '/gitea-drone/' }
+    - { src: 'traefik/prod', dest: '/gitea-drone/traefik/' }
 
   - name: stop all
     shell: cd /gitea-drone && docker-compose down
