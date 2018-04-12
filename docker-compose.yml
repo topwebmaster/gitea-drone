@@ -40,6 +40,7 @@ services:
             - DRONE_MAX_PROCS=3
     proxy:
         image: traefik
+        restart: always
         command: --logLevel=ERROR
         links:
             - gitea
