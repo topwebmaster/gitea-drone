@@ -12,6 +12,8 @@ defaultEntryPoints = ["http", "https"]
   email = "admin@softinnov.fr"
   storage = "/etc/traefik/acme.json"
   entryPoint = "https"
+[acme.httpChallenge]
+  entryPoint = "http"
 
 [[acme.domains]]
   main = "git.softinnov.fr"
