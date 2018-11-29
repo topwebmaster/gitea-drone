@@ -21,6 +21,7 @@ services:
             - DRONE_OPEN=true
             - DRONE_HOST=https://drone.softinnov.fr
             - DRONE_SECRET=drone-workshop
+            - DRONE_ADMIN=barim
             # Gitea Config
             - DRONE_GITEA=true
             - DRONE_GITEA_URL=https://git.softinnov.fr

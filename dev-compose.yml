@@ -21,6 +21,7 @@ services:
             - DRONE_OPEN=true
             - DRONE_HOST=http://drone:8000
             - DRONE_SECRET=drone-workshop
+            - DRONE_ADMIN=barim
             # Gitea Config
             - DRONE_GITEA=true
             - DRONE_GITEA_URL=http://gitea:3000
