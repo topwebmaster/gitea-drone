@@ -19,6 +19,8 @@ defaultEntryPoints = ["http", "https"]
   main = "git.softinnov.fr"
 [[acme.domains]]
   main = "drone.softinnov.fr"
+[[acme.domains]]
+  main = "support.softinnov.fr"
 
 [file]
 
@@ -29,6 +31,9 @@ defaultEntryPoints = ["http", "https"]
   [backends.drone]
     [backends.drone.servers.server1]
        url = "http://drone:8000"
+  [backends.osticket]
+    [backends.osticket.servers.server1]
+       url = "http://osticket"
 
 [frontends]
   [frontends.drone]
@@ -41,3 +46,8 @@ defaultEntryPoints = ["http", "https"]
       passHostHeader = true
       [frontends.gitea.routes.example]
       rule = "Host:git.softinnov.fr"
+  [frontends.osticket]
+      backend = "osticket"
+      passHostHeader = true
+      [frontends.osticket.routes.example]
+      rule = "Host:support.softinnov.fr"

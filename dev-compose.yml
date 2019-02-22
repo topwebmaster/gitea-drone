@@ -3,16 +3,14 @@ services:
 
     gitea:
         image: gitea/gitea:latest
-        restart: always
         ports:
             - "2222:22"
         volumes:
             - dbdata:/data
-            - ./gitea-dev-app.ini:/data/gitea/conf/app.ini
+            - ./config/gitea-dev-app.ini:/data/gitea/conf/app.ini
 
     drone:
-        image: drone/drone
-        restart: always
+        image: drone/drone:0.8
         depends_on: 
             - gitea
         volumes:
@@ -29,8 +27,7 @@ services:
             - DRONE_NETWORK=gitea-network
 
     drone-agent:
-        image: drone/agent
-        restart: always
+        image: drone/agent:0.8
         depends_on:
             - drone
         volumes:
@@ -39,12 +36,46 @@ services:
             - DRONE_SERVER=drone:9000
             - DRONE_SECRET=drone-workshop
             - DRONE_MAX_PROCS=3
+
+    osticketdb:
+        image: mariadb
+        env_file: env/osticketdb.secret
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+            MYSQL_DATABASE: 'osticket'
+        volumes:
+            - dbost:/var/lib/mysql
+
+    osticket:
+        image: campbellsoftwaresolutions/osticket
+        depends_on:
+            - osticketdb
+        env_file: env/osticket.secret
+        environment:
+            MYSQL_HOST: osticketdb
+            SMTP_HOST: 'smtp'
+            SMTP_HOSTNAME: 'smtp'
+            SMTP_PORT: '25'
+            SMTP_FROM: 'osticket'
+            SMTP_TLS: '0'
+        links:
+            - osticketdb
+            - smtp
+
+    smtp:
+        image: mailhog/mailhog
+        command: ["-smtp-bind-addr", "0.0.0.0:25"]
+        user: root
+        ports:
+            - 8025:8025
+
     proxy:
         image: traefik
         command: --logLevel=ERROR
         links:
             - gitea
             - drone
+            - osticket
         ports:
             - "80:80"
             - "443:443"
@@ -53,6 +84,7 @@ services:
 
 volumes:
     dbdata:
+    dbost:
 
 networks:
   default:

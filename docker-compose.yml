@@ -8,10 +8,10 @@ services:
             - "2222:22"
         volumes:
             - dbdata:/data
-            - ./gitea-app.ini:/data/gitea/conf/app.ini
+            - ./config/gitea-app.ini:/data/gitea/conf/app.ini
 
     drone:
-        image: drone/drone
+        image: drone/drone:0.8
         restart: always
         depends_on: 
             - gitea
@@ -29,7 +29,7 @@ services:
             - DRONE_NETWORK=gitea-network
 
     drone-agent:
-        image: drone/agent
+        image: drone/agent:0.8
         restart: always
         depends_on:
             - drone
@@ -39,6 +39,36 @@ services:
             - DRONE_SERVER=drone:9000
             - DRONE_SECRET=drone-workshop
             - DRONE_MAX_PROCS=3
+
+    osticketdb:
+        image: mariadb
+        env_file: env/osticketdb.secret
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+            MYSQL_DATABASE: 'osticket'
+        volumes:
+            - dbost:/var/lib/mysql
+
+    osticket:
+        image: campbellsoftwaresolutions/osticket
+        depends_on:
+            - osticketdb
+        env_file: env/osticket.secret
+        environment:
+            MYSQL_HOST: osticketdb
+            SMTP_HOST: 'smtp'
+            SMTP_HOSTNAME: 'smtp'
+            SMTP_PORT: '25'
+            SMTP_FROM: 'osticket'
+            SMTP_TLS: '0'
+        links:
+            - osticketdb
+            - smtp
+
+    smtp:
+        image: softinnov/gmailsmtp
+        env_file: env/smtp.secret        
+
     proxy:
         image: traefik
         restart: always
@@ -46,6 +76,7 @@ services:
         links:
             - gitea
             - drone
+            - osticket
         ports:
             - "80:80"
             - "443:443"
@@ -54,6 +85,7 @@ services:
 
 volumes:
     dbdata:
+    dbost:
 
 networks:
   default:
