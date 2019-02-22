@@ -50,7 +50,7 @@ services:
             - dbost:/var/lib/mysql
 
     osticket:
-        image: campbellsoftwaresolutions/osticket
+        image: hamdouni/docker-osticket
         depends_on:
             - osticketdb
         env_file: env/osticket.secret
