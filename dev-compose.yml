@@ -70,7 +70,7 @@ services:
             - 8025:8025
 
     proxy:
-        image: traefik
+        image: traefik:1.7
         command: --logLevel=ERROR
         links:
             - gitea

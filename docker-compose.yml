@@ -70,7 +70,7 @@ services:
         env_file: env/smtp.secret        
 
     proxy:
-        image: traefik
+        image: traefik:1.7
         restart: always
         command: --logLevel=ERROR
         links:
